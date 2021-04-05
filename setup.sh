@@ -62,7 +62,7 @@ sleep 1
 
 #Kiwix install
 add-apt-repository -y ppa:kiwixteam/release
-apt-get -y install kiwix
+apt-get -y install kiwix shotcut sonic-pi scratch
 
 #PhET install
 apt-get -y install gcc-multilib
@@ -77,5 +77,5 @@ apt-get -y install gcc-multilib
 | ./PhET-Installer_linux.bin
 
 #add automatic update and autoremove
-#comvine repo package installations
+#combine repo package installations
 #add cancellable reboot/shutdown sequence
