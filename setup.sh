@@ -44,11 +44,9 @@ fi
 
 #Internet connection test
 echo "Seeking internet connection..."
-sleep 1
 
 if ping -c 1 gnu.org > /dev/null 2>&1; then
   echo "Internet connection found"
-  sleep 1
 else 
   echo "No internet connection found"
   sleep 1
@@ -57,15 +55,16 @@ else
   exit 1
 fi
 
+#Announcement banner
 banner_large "Starting setup..."
 sleep 1
 
-#Kiwix install
-add-apt-repository -y ppa:kiwixteam/release
-apt-get -y install kiwix shotcut sonic-pi scratch
+#Software install
+banner_small "Installing software..."
+sleep 1
 
-#PhET install
-apt-get -y install gcc-multilib
+add-apt-repository -y ppa:kiwixteam/release
+apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
 
 {
   printf "%0.s\n" {1..32}
