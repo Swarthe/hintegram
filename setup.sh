@@ -39,15 +39,6 @@ banner_small()
   echo "+------------------------------------------+"
 }
 
-#PhET installer test
-if ! [ -e PhET-Installer_linux.bin ]
-then
-  echo "No PhET installer found"
-  echo "Exiting..."
-  sleep 1
-  exit 1
-fi
-
 #Internet connection test
 echo "Seeking internet connection..."
 
@@ -55,6 +46,15 @@ if ping -c 1 gnu.org > /dev/null 2>&1; then
   echo "Internet connection found"
 else 
   echo "No internet connection found"
+  echo "Exiting..."
+  sleep 1
+  exit 1
+fi
+
+#PhET installer test
+if ! [ -e PhET-Installer_linux.bin ]
+then
+  echo "No PhET installer found"
   echo "Exiting..."
   sleep 1
   exit 1
