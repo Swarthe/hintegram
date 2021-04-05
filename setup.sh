@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-#Ubuntu setup script, intended for Hintegram
+#Fully automatic Ubuntu setup script, intended for Hintegram
 #Navigate to this script's directory and run it as root
 
 #Sleep commands are temporary
@@ -61,11 +61,21 @@ banner_large "Starting setup..."
 sleep 1
 
 #Kiwix install
-#mchange to repo package installation later
-banner_small "Installing Kiwix..."
-sleep 1
 add-apt-repository -y ppa:kiwixteam/release
 apt-get -y install kiwix
 
+#PhET install
+apt-get -y install gcc-multilib
+
+{
+  printf "%0.s\n" {1..32}
+  echo "y"
+  echo "/opt/PhET"
+  echo "y"
+  echo "n"
+} | sort \
+| ./PhET-Installer_linux.bin
+
 #add automatic update and autoremove
+#comvine repo package installations
 #add cancellable reboot/shutdown sequence
