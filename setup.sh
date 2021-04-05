@@ -16,6 +16,15 @@ trap \
 }" \
 ERR SIGINT SIGTERM
 
+#Privilege test
+if ! [ $(id -u) = 0 ]; then
+  echo "Setup is not running as root"
+  sleep 1
+  echo "Exiting..."
+  sleep 1
+  exit 1
+fi
+
 #Ouput banners
 banner_large()
 {
@@ -32,15 +41,6 @@ banner_small()
   printf "|`tput bold` %-40s `tput sgr0`|\n" "$@"
   echo "+------------------------------------------+"
 }
-
-#Privilege test
-if ! [ $(id -u) = 0 ]; then
-  echo "Setup is not running as root"
-  sleep 1
-  echo "Exiting..."
-  sleep 1
-  exit 1
-fi
 
 #Internet connection test
 echo "Seeking internet connection..."
@@ -76,5 +76,4 @@ apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
 | ./PhET-Installer_linux.bin
 
 #add automatic update and autoremove
-#combine repo package installations
 #add cancellable reboot/shutdown sequence
