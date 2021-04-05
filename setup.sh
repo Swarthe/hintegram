@@ -57,11 +57,15 @@ fi
 
 #Announcement banner
 banner_large "Starting setup..."
-sleep 1
+
+#Update and cleansing
+banner_small "Updating and cleaning up..."
+
+apt-get update && apt-get upgrade
+apt-get autoremove
 
 #Software install
 banner_small "Installing software..."
-sleep 1
 
 add-apt-repository -y ppa:kiwixteam/release
 apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
@@ -75,5 +79,8 @@ apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
 } | sort \
 | ./PhET-Installer_linux.bin
 
-#add automatic update and autoremove
-#add cancellable reboot/shutdown sequence
+#Automatic reboot
+banner_large "Setup complete!"
+echo "Rebooting in 7 seconds... Press Ctrl^C to cancel"
+sleep 7
+reboot
