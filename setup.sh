@@ -3,8 +3,6 @@
 #Fully automatic Ubuntu setup script, intended for Hintegram
 #Navigate to this script's directory and run it as root
 
-#Sleep commands are temporary
-
 #Exit trap
 set -e
 
