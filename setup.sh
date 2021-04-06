@@ -66,8 +66,8 @@ banner_large "Starting setup..."
 #Update and cleansing
 banner_small "Updating and cleaning up..."
 
-apt-get update && apt-get upgrade
-apt-get autoremove
+apt-get -y update && apt-get upgrade
+apt-get -y autoremove
 
 #Software install (repositories)
 banner_small "Installing software..."
