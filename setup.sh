@@ -16,7 +16,7 @@ ERR SIGINT SIGTERM
 
 #Privilege test
 if ! [ $(id -u) = 0 ]; then
-  echo "Setup is not running as root"
+  echo "Setup is not running as root!"
   echo "Exiting..."
   sleep 1
   exit 1
@@ -39,22 +39,15 @@ banner_small()
   echo "+------------------------------------------+"
 }
 
-#Internet connection test
-echo "Seeking internet connection..."
-
-if ping -c 1 gnu.org > /dev/null 2>&1; then
-  echo "Internet connection found"
-else 
-  echo "No internet connection found"
-  echo "Exiting..."
-  sleep 1
-  exit 1
-fi
-
-#PhET installer test
-if ! [ -e PhET-Installer_linux.bin ]
+#Local files test
+if ! [ -e deb/sonic-pi_2.10.0~repack-2.1build2_amd64.deb ] && \
+  [ -e deb/gcc-multilib_9.3.0-1ubuntu2_amd64.deb ] && \
+  [ -e deb/kiwix_2.0.5~focal_amd64.deb ] && \
+  [ -e deb/scratch_1.4.0.6~dfsg1-6_all.deb ] && \
+  [ -e deb/shotcut_20.02.17-2_amd64.deb ] && \
+  [ -e bin/PhET-Installer_linux.bin ] 
 then
-  echo "No PhET installer found"
+  echo "Local files missing!"
   echo "Exiting..."
   sleep 1
   exit 1
@@ -63,28 +56,27 @@ fi
 #Announcement banner
 banner_large "Starting setup..."
 
-#Update and cleansing
-banner_small "Updating and cleaning up..."
-
-apt-get -y update && apt-get upgrade
-apt-get -y autoremove
-
-#Software install (repositories)
+#Software install (deb)
 banner_small "Installing software..."
 
-add-apt-repository -y ppa:kiwixteam/release
-apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
+dpkg -i deb/sonic-pi_2.10.0~repack-2.1build2_amd64.deb \
+  deb/gcc-multilib_9.3.0-1ubuntu2_amd64.deb \
+  deb/kiwix_2.0.5~focal_amd64.deb \
+  deb/scratch_1.4.0.6~dfsg1-6_all.deb \
+  deb/shotcut_20.02.17-2_amd64.deb
 
-#Software install (local)
+apt-get install -f
+
+#Software install (bin)
 {
   printf "%0.s\n" {1..32}
-  echo "y"
   echo "/opt/PhET"
   echo "y"
   echo "n"
-} | sort \
-| ./PhET-Installer_linux.bin
-cp /opt/PhET/PhET\ Simulations.desktop /usr/share/applications/PhET\ Simulations.desktop
+} | sort | ./bin/PhET-Installer_linux.bin
+
+cp /opt/PhET/PhET\ Simulations.desktop \
+  /usr/share/applications/PhET\ Simulations.desktop
 
 #Automatic reboot
 banner_large "Setup complete!"
