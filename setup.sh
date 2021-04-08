@@ -53,6 +53,9 @@ else
   prof="remote"
 fi
 
+#Home directory detection
+home=$(ls /home/)
+
 #Internet connection test for remote
 if [ "$prof" == "remote" ]; then
   echo "Seeking internet connection..."
@@ -65,10 +68,8 @@ if [ "$prof" == "remote" ]; then
   fi
 fi
 
-#Announcement banner
-banner_large "Starting setup..."
-
 #Software install (deb)
+banner_large "Starting setup..."
 banner_small "Installing software..."
 
 if [ "$prof" == "local" ]; then
@@ -103,13 +104,13 @@ if [ "$prof" == "remote" ]; then
     --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate \
     'https://docs.google.com/uc?export=download&id=1VddMR5dd7BIVp1Ze0PEd5gsU7th0pnTt' -O- | \
     sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1VddMR5dd7BIVp1Ze0PEd5gsU7th0pnTt" \
-    -O PhET-Installer_linux.bin && rm -rf /tmp/cookies.txt
+    -O /tmp/PhET-Installer_linux.bin && rm -rf /tmp/cookies.txt
   {
     printf "%0.s\n" {1..32}
     echo "/opt/PhET"
     echo "y"
     echo "n"
-  } | sort | ./PhET-Installer_linux.bin
+  } | sort | ./tmp/PhET-Installer_linux.bin
   cp /opt/PhET/PhET\ Simulations.desktop \
     /usr/share/applications/PhET\ Simulations.desktop
 fi
@@ -117,15 +118,15 @@ fi
 #Library install (wip)
 banner_small "Downloading libraries..."
 
-mkdir "/home/academic/.local/share/kiwix/"
+mkdir "/home/"$home"/.local/share/kiwix/"
 
 if [ "$prof" == "local" ]; then
-  cp "zim/wikipedia_en_for-schools_2018-09.zim" "/home/academic/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
+  cp "zim/wikipedia_en_for-schools_2018-09.zim" "/home/"$home"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
 fi
 
 if [ "$prof" == "remote" ]; then
   wget -O wikipedia_en_for-schools_2018-09.zim https://download.kiwix.org/zim/wikipedia_en_for-schools.zim
-  mv "wikipedia_en_for-schools_2018-09.zim" "/home/academic/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
+  mv "wikipedia_en_for-schools_2018-09.zim" "/home/"$home"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
 fi
 
 #Automatic reboot
