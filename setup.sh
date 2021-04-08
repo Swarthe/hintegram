@@ -2,7 +2,7 @@
 
 #Fully automatic Ubuntu setup script, intended for Hintegram
 #Requires certain local or remote binaries and archives to function
-#Navigate to this script's directory and run it as root
+#Requires that names of user and home directory are equal
 
 #Exit trap
 trap \
@@ -53,8 +53,8 @@ else
   prof="remote"
 fi
 
-#Home directory detection
-home=$(ls /home/)
+#Directory and user guess
+user=$(ls /home/)
 
 #Internet connection test for remote
 if [ "$prof" == "remote" ]; then
@@ -105,28 +105,29 @@ if [ "$prof" == "remote" ]; then
     'https://docs.google.com/uc?export=download&id=1VddMR5dd7BIVp1Ze0PEd5gsU7th0pnTt' -O- | \
     sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1VddMR5dd7BIVp1Ze0PEd5gsU7th0pnTt" \
     -O /tmp/PhET-Installer_linux.bin && rm -rf /tmp/cookies.txt
+  chmod +x /tmp/PhET-Installer_linux.bin
   {
     printf "%0.s\n" {1..32}
     echo "/opt/PhET"
     echo "y"
     echo "n"
-  } | sort | ./tmp/PhET-Installer_linux.bin
+  } | sort | /tmp/PhET-Installer_linux.bin
   cp /opt/PhET/PhET\ Simulations.desktop \
     /usr/share/applications/PhET\ Simulations.desktop
 fi
 
-#Library install (wip)
+#Library download (zim)
 banner_small "Downloading libraries..."
 
-mkdir "/home/"$home"/.local/share/kiwix/"
+sudo -u "$user" mkdir -p = "/home/"$user"/.local/share/kiwix/"
 
 if [ "$prof" == "local" ]; then
-  cp "zim/wikipedia_en_for-schools_2018-09.zim" "/home/"$home"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
+  cp "zim/wikipedia_en_for-schools_2018-09.zim" "/home/"$user"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
 fi
 
 if [ "$prof" == "remote" ]; then
   wget -O wikipedia_en_for-schools_2018-09.zim https://download.kiwix.org/zim/wikipedia_en_for-schools.zim
-  mv "wikipedia_en_for-schools_2018-09.zim" "/home/"$home"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
+  mv "wikipedia_en_for-schools_2018-09.zim" "/home/"$user"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
 fi
 
 #Automatic reboot
