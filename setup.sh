@@ -38,18 +38,18 @@ banner_small()
 
 #Local files test for profiles
 if [ -e deb/sonic-pi_2.10.0~repack-2.1build2_amd64.deb ] && \
-  [ -e deb/gcc-multilib_9.3.0-1ubuntu2_amd64.deb ] && \
+  [ -e deb/gcc-multilib_4%3a9.3.0-1ubuntu2_amd64.deb ] && \
   [ -e deb/kiwix_2.0.5~focal_amd64.deb ] && \
   [ -e deb/scratch_1.4.0.6~dfsg1-6_all.deb ] && \
   [ -e deb/shotcut_20.02.17-2_amd64.deb ] && \
   [ -e bin/PhET-Installer_linux.bin ] && \
   [ -e zim/wikipedia_en_for-schools_2018-09.zim ]; then
-    echo "Local files found!"
+    echo "Essential local files found!"
     echo "Setup will continue locally"
     prof="local"
 else
-  echo "Local files missing!"
-  echo "Setup will continue with internet"
+  echo "Essential local files missing!"
+  echo "Setup will continue remotely"
   prof="remote"
 fi
 
@@ -73,12 +73,11 @@ banner_large "Starting setup..."
 banner_small "Installing software..."
 
 if [ "$prof" == "local" ]; then
-  dpkg -i deb/*
+  yes "\n" | dpkg --force-depends -i deb/* 
   apt-get install -f
 fi
 
 if [ "$prof" == "remote" ]; then
-  apt-get -y update
   add-apt-repository -y ppa:kiwixteam/release
   apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
 fi
@@ -100,7 +99,7 @@ if [ "$prof" == "remote" ]; then
     --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate \
     'https://docs.google.com/uc?export=download&id=1VddMR5dd7BIVp1Ze0PEd5gsU7th0pnTt' -O- | \
     sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1VddMR5dd7BIVp1Ze0PEd5gsU7th0pnTt" \
-    -O /tmp/PhET-Installer_linux.bin && rm -rf /tmp/cookies.txt
+    -O /tmp/PhET-Installer_linux.bin
   chmod +x /tmp/PhET-Installer_linux.bin
   {
     printf "%0.s\n" {1..32}
@@ -120,6 +119,8 @@ sudo -u "$user" mkdir -p "/home/"$user"/.local/share/kiwix/"
 if [ "$prof" == "local" ]; then
   cp "zim/wikipedia_en_for-schools_2018-09.zim" \
   "/home/"$user"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
+  cp "zim/library.xml" \
+  "/home/"$user"/.local/share/kiwix/library.xml"
 fi
 
 if [ "$prof" == "remote" ]; then
@@ -129,7 +130,7 @@ if [ "$prof" == "remote" ]; then
     --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate \
     'https://docs.google.com/uc?export=download&id=1JyNEoTIDFXwqRV9rByPsNbry20mCZHRl' -O- | \
     sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1JyNEoTIDFXwqRV9rByPsNbry20mCZHRl" \
-    -O /home/"$user"/.local/share/kiwix/library.xml && rm -rf /tmp/cookies.txt
+    -O /home/"$user"/.local/share/kiwix/library.xml
 fi
 
 #Automatic reboot
