@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
 #Fully automatic Ubuntu setup script, intended for Hintegram
+#Requires certain local binaries and archives to function
 #Navigate to this script's directory and run it as root
 
 #Exit trap
-set -e
-
 trap \
 "{
   echo "Exiting..."
@@ -45,12 +44,12 @@ if ! [ -e deb/sonic-pi_2.10.0~repack-2.1build2_amd64.deb ] && \
   [ -e deb/kiwix_2.0.5~focal_amd64.deb ] && \
   [ -e deb/scratch_1.4.0.6~dfsg1-6_all.deb ] && \
   [ -e deb/shotcut_20.02.17-2_amd64.deb ] && \
-  [ -e bin/PhET-Installer_linux.bin ] 
+  [ -e bin/PhET-Installer_linux.bin ] && \
+  [ -e zim/wikipedia_en_for-schools_2018-09.zim ]
 then
   echo "Local files missing!"
-  echo "Exiting..."
+  echo "Setup may not complete fully"
   sleep 1
-  exit 1
 fi
 
 #Announcement banner
