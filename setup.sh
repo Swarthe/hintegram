@@ -117,6 +117,8 @@ fi
 #Library install (wip)
 banner_small "Downloading libraries..."
 
+mkdir "/home/academic/.local/share/kiwix/"
+
 if [ "$prof" == "local" ]; then
   cp "zim/wikipedia_en_for-schools_2018-09.zim" "/home/academic/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
 fi
