@@ -53,7 +53,7 @@ else
   prof="remote"
 fi
 
-#Directory and user guess
+#Home directory and user guess
 user=$(ls /home/)
 
 #Internet connection test for remote
@@ -73,11 +73,7 @@ banner_large "Starting setup..."
 banner_small "Installing software..."
 
 if [ "$prof" == "local" ]; then
-  dpkg -i deb/sonic-pi_2.10.0~repack-2.1build2_amd64.deb \
-    deb/gcc-multilib_9.3.0-1ubuntu2_amd64.deb \
-    deb/kiwix_2.0.5~focal_amd64.deb \
-    deb/scratch_1.4.0.6~dfsg1-6_all.deb \
-    deb/shotcut_20.02.17-2_amd64.deb
+  dpkg -i deb/*
   apt-get install -f
 fi
 
@@ -119,15 +115,21 @@ fi
 #Library download (zim)
 banner_small "Downloading libraries..."
 
-sudo -u "$user" mkdir -p = "/home/"$user"/.local/share/kiwix/"
+sudo -u "$user" mkdir -p "/home/"$user"/.local/share/kiwix/"
 
 if [ "$prof" == "local" ]; then
-  cp "zim/wikipedia_en_for-schools_2018-09.zim" "/home/"$user"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
+  cp "zim/wikipedia_en_for-schools_2018-09.zim" \
+  "/home/"$user"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
 fi
 
 if [ "$prof" == "remote" ]; then
-  wget -O wikipedia_en_for-schools_2018-09.zim https://download.kiwix.org/zim/wikipedia_en_for-schools.zim
-  mv "wikipedia_en_for-schools_2018-09.zim" "/home/"$user"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
+  sudo -u "$user" wget -O /home/"$user"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim \
+  https://download.kiwix.org/zim/wikipedia_en_for-schools.zim
+  sudo -u "$user" wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget \
+    --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate \
+    'https://docs.google.com/uc?export=download&id=1JyNEoTIDFXwqRV9rByPsNbry20mCZHRl' -O- | \
+    sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1JyNEoTIDFXwqRV9rByPsNbry20mCZHRl" \
+    -O /home/"$user"/.local/share/kiwix/library.xml && rm -rf /tmp/cookies.txt
 fi
 
 #Automatic reboot
