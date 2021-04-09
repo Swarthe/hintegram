@@ -2,7 +2,7 @@
 
 #Fully automatic Ubuntu setup script, intended for Hintegram
 #Requires certain local or remote binaries and archives to function
-#Requires that names of user and home directory are equal
+#Requires that names of user and home directory are equivalent
 
 #Exit trap
 trap \
@@ -37,11 +37,11 @@ banner_small()
 }
 
 #Local files test for profiles
-if [ -e deb/sonic-pi_2.10.0~repack-2.1build2_amd64.deb ] && \
-  [ -e deb/gcc-multilib_4%3a9.3.0-1ubuntu2_amd64.deb ] && \
-  [ -e deb/kiwix_2.0.5~focal_amd64.deb ] && \
-  [ -e deb/scratch_1.4.0.6~dfsg1-6_all.deb ] && \
-  [ -e deb/shotcut_20.02.17-2_amd64.deb ] && \
+if [ -e deb/sonic-pi/sonic-pi_2.10.0~repack-2.1build2_amd64.deb ] && \
+  [ -e deb/gcc-multilib/gcc-multilib_4%3a9.3.0-1ubuntu2_amd64.deb ] && \
+  [ -e deb/kiwix/kiwix_2.0.5~focal_amd64.deb ] && \
+  [ -e deb/scratch/scratch_1.4.0.6~dfsg1-6_all.deb ] && \
+  [ -e deb/shotcut/shotcut_20.02.17-2_amd64.deb ] && \
   [ -e bin/PhET-Installer_linux.bin ] && \
   [ -e zim/wikipedia_en_for-schools_2018-09.zim ]; then
     echo "Essential local files found!"
@@ -73,8 +73,9 @@ banner_large "Starting setup..."
 banner_small "Installing software..."
 
 if [ "$prof" == "local" ]; then
-  yes "\n" | dpkg --force-depends -i deb/* 
-  apt-get install -f
+  cp -v deb/* /var/cache/apt/archives
+  apt-get -y update
+  yes '' | apt-get -y install kiwix shotcut sonic-pi sratch gcc-multilib
 fi
 
 if [ "$prof" == "remote" ]; then
@@ -90,7 +91,7 @@ if [ "$prof" == "local" ]; then
     echo "y"
     echo "n"
   } | sort | ./bin/PhET-Installer_linux.bin
-  cp /opt/PhET/PhET\ Simulations.desktop \
+  cp -v /opt/PhET/PhET\ Simulations.desktop \
     /usr/share/applications/PhET\ Simulations.desktop
 fi
 
@@ -107,7 +108,7 @@ if [ "$prof" == "remote" ]; then
     echo "y"
     echo "n"
   } | sort | /tmp/PhET-Installer_linux.bin
-  cp /opt/PhET/PhET\ Simulations.desktop \
+  cp -v /opt/PhET/PhET\ Simulations.desktop \
     /usr/share/applications/PhET\ Simulations.desktop
 fi
 
@@ -117,9 +118,9 @@ banner_small "Downloading libraries..."
 sudo -u "$user" mkdir -p "/home/"$user"/.local/share/kiwix/"
 
 if [ "$prof" == "local" ]; then
-  cp "zim/wikipedia_en_for-schools_2018-09.zim" \
+  cp -v "zim/wikipedia_en_for-schools_2018-09.zim" \
   "/home/"$user"/.local/share/kiwix/wikipedia_en_for-schools_2018-09.zim"
-  cp "zim/library.xml" \
+  cp -v "zim/library.xml" \
   "/home/"$user"/.local/share/kiwix/library.xml"
 fi
 
