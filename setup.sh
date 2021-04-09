@@ -53,9 +53,6 @@ else
   prof="remote"
 fi
 
-#Home directory and user guess
-user=$(ls /home/)
-
 #Internet connection test for remote
 if [ "$prof" == "remote" ]; then
   echo "Seeking internet connection..."
@@ -72,15 +69,15 @@ fi
 banner_large "Starting setup..."
 banner_small "Installing software..."
 
+export DEBIAN_FRONTEND=noninteractive
+
 if [ "$prof" == "local" ]; then
-  cp -v deb/* /var/cache/apt/archives
-  apt-get -y update
-  yes '' | apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
+  apt -yq install ./deb/*
 fi
 
 if [ "$prof" == "remote" ]; then
   add-apt-repository -y ppa:kiwixteam/release
-  apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
+  apt-get -yq install kiwix shotcut sonic-pi scratch gcc-multilib
 fi
 
 #Software install (bin)
@@ -115,6 +112,7 @@ fi
 #Library download (zim)
 banner_small "Downloading libraries..."
 
+user=$(ls /home/)
 sudo -u "$user" mkdir -p "/home/"$user"/.local/share/kiwix/"
 
 if [ "$prof" == "local" ]; then

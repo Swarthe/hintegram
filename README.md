@@ -8,4 +8,5 @@ features tba:
 
 changelog:
 - fixed local installation sequence
-- polished for release
+- fixed jackd2 interactive behaviour
+- general polish
