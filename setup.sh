@@ -38,10 +38,10 @@ banner_small()
 
 #Local files test for profiles
 if [ -e deb/sonic-pi/sonic-pi_2.10.0~repack-2.1build2_amd64.deb ] && \
-  [ -e deb/gcc-multilib/gcc-multilib_4%3a9.3.0-1ubuntu2_amd64.deb ] && \
-  [ -e deb/kiwix/kiwix_2.0.5~focal_amd64.deb ] && \
-  [ -e deb/scratch/scratch_1.4.0.6~dfsg1-6_all.deb ] && \
-  [ -e deb/shotcut/shotcut_20.02.17-2_amd64.deb ] && \
+  [ -e deb/gcc-multilib_4%3a9.3.0-1ubuntu2_amd64.deb ] && \
+  [ -e deb/kiwix_2.0.5~focal_amd64.deb ] && \
+  [ -e deb/scratch_1.4.0.6~dfsg1-6_all.deb ] && \
+  [ -e deb/shotcut_20.02.17-2_amd64.deb ] && \
   [ -e bin/PhET-Installer_linux.bin ] && \
   [ -e zim/wikipedia_en_for-schools_2018-09.zim ]; then
     echo "Essential local files found!"
@@ -75,7 +75,7 @@ banner_small "Installing software..."
 if [ "$prof" == "local" ]; then
   cp -v deb/* /var/cache/apt/archives
   apt-get -y update
-  yes '' | apt-get -y install kiwix shotcut sonic-pi sratch gcc-multilib
+  yes '' | apt-get -y install kiwix shotcut sonic-pi scratch gcc-multilib
 fi
 
 if [ "$prof" == "remote" ]; then
