@@ -37,7 +37,7 @@ banner_small()
 }
 
 #Local files test for profiles
-if [ -e deb/sonic-pi/sonic-pi_2.10.0~repack-2.1build2_amd64.deb ] && \
+if [ -e deb/sonic-pi_2.10.0~repack-2.1build2_amd64.deb ] && \
   [ -e deb/gcc-multilib_4%3a9.3.0-1ubuntu2_amd64.deb ] && \
   [ -e deb/kiwix_2.0.5~focal_amd64.deb ] && \
   [ -e deb/scratch_1.4.0.6~dfsg1-6_all.deb ] && \
