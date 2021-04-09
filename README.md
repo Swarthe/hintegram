@@ -8,4 +8,4 @@ features tba:
 
 changelog:
 - fixed local installation sequence
-- polished
+- polished for release
