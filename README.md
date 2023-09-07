@@ -2,15 +2,15 @@
 
 To be used or modified as the reader pleases.
 
-More information available [here](https://drive.google.com/drive/u/1/folders/1povknwA0eCiID84lqbvH1no2gdcHstoq).
+More information available [here (restricted link)](https://docs.google.com/spreadsheets/d/10kJCQFiscOIqVbQbr5U2OLVPfOQyIY6I2KzGOk_houc/edit?usp=sharing).
 
 ## Purpose
 
-This script is a charitable effort to help children in Ghana obtain tools for a
-better education. It is designed to automatically set up laptops with various
-educational software (Wikipedia database, physics simulator...). We used it to
-set up laptops running outdated copies of Windows, which were later sent to the
-aforementioned children in Ghana.
+This script was used for a charitable effort to help children in Ghana obtain
+tools for a better education. It is designed to automatically set up laptops
+with various educational software (Wikipedia database, physics simulator...). We
+used it on decommissioned laptops formerly running outdated copies of Windows.
+These laptops were later sent to the aforementioned children in Ghana.
 
 # License - The Unlicense
 
